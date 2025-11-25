@@ -1,0 +1,110 @@
+:root {
+  --main-color: #ffffff;
+  --secondary-color: #f8f8f8;
+  --main-font-color: #040404;
+  --secondary-font-color: #6b7280;
+  --modal-secondary-font-color: #4b5577;
+  --tags-color: #f3f4f6;
+  --border-color: #e5e7eb;
+  --primary-box-shadow: 0px 4px 6px rgba(54, 78, 126, 0.1015);
+}
+
+/* 
+<========= Filter Selects Styling =========>
+*/
+
+.filter {
+  /* padding: 1.5rem 1rem; */
+  width: 100%;
+
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.filter label {
+  font-weight: 500;
+  font-size: 0.8125rem;
+}
+
+select,
+::picker(select) {
+  appearance: base-select;
+}
+
+select {
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: inherit;
+
+  padding: 0.45rem 1rem;
+
+  /* min-height: 2.5rem; */
+
+  border: 1px solid #d1d5db;
+  border-radius: .375rem;
+  background-color: var(--main-color);
+
+  flex: 1;
+}
+
+select.task-status-input {
+  margin-bottom: 1.5rem;
+}
+
+#add-task-form select {
+  margin-bottom: 1.5rem;
+}
+
+select::picker-icon {
+  color: var(--secondary-font-color);
+}
+
+::picker(select) {
+  border: none;
+  border-radius: 0.5rem;
+
+  box-shadow: var(--primary-box-shadow);
+
+  top: calc(anchor(top) + 32px);
+}
+
+option {
+  margin: 0.5rem 0 0.5rem 0.5rem;
+}
+
+option:not(option:checked) {
+  color: var(--secondary-font-color);
+}
+
+option::checkmark {
+  display: none;
+}
+
+select:hover,
+option:hover {
+  background: #f4f7fd;
+}
+
+/* 
+<========= Media Queries =========>
+*/
+
+@media (min-width: 541px) {
+  .filter {
+    justify-content: flex-start;
+  }
+
+  .filter label {
+    font-size: 1rem;
+  }
+
+  select {
+    font-size: 1rem;
+    flex: 0 0 auto;
+  }
+
+  ::picker(select) {
+    top: calc(anchor(top) + 36px);
+  }
+}
