@@ -4,6 +4,7 @@ import Header from "./components/UI/Header.jsx";
 import Home from "./pages/Home.jsx";
 import ShowDetails from "./pages/ShowDetails.jsx";
 import "./App.css";
+import GlobalPlayer from "./components/UI/GlobalPlayer.jsx";
 
 /**
  * Main app component
@@ -22,6 +23,8 @@ export default function App() {
           <Route path={`/show/:id`} element={<ShowDetails />} />
         </Routes>
       </PodcastProvider>
+
+      <GlobalPlayer />
     </>
   );
 }
