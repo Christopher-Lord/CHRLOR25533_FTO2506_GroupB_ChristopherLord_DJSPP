@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { truncateText } from "/src/utils/truncateText.js";
 import { Link } from "react-router-dom";
+import { useAudioPlayerContext } from "../../context/AudioPlayerContext";
 import "/styles.css";
+
 
 /**
  * PodcastDetails Component
@@ -31,6 +33,8 @@ export default function PodcastDetails({ podcast }) {
   const currentSeasonObj = podcast.seasons.find(
     (s) => s.season === selectedSeason,
   );
+
+  const { playEpisode } = useAudioPlayerContext();
 
   return (
     <div className="podcast-modal-container" id="podcast-modal">
@@ -142,7 +146,29 @@ export default function PodcastDetails({ podcast }) {
                   </h4>
 
                   {/* Truncated episode description */}
-                  <p>{truncateText(ep.description, 159)}</p>
+                  <p className="ep-description">
+                    {truncateText(ep.description, 159)}
+                  </p>
+                </div>
+                <div className="ep-btns">
+                  <div
+                    className="ep-play-btn"
+                    onClick={() =>
+                      playEpisode({
+                        title: ep.title,
+                        episode: ep.episode,
+                        file: ep.file,
+                        podcastTitle: podcast.title,
+                        season: currentSeasonObj.season,
+                        seasonImage: currentSeasonObj.image,
+                      })
+                    }
+                  >
+                    <span>&#9654;</span>
+                  </div>
+                  <div className="ep-fav-btn">
+                    <span>&#x2764;</span>
+                  </div>
                 </div>
               </div>
             ))}
