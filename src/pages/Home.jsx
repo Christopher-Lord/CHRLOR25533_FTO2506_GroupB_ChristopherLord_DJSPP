@@ -4,6 +4,7 @@ import SearchBar from "../components/Filters/SearchBar.jsx";
 import PodcastGrid from "../components/Podcasts/PodcastGrid.jsx";
 import GenreFilter from "../components/Filters/GenreFilter.jsx";
 import SortFilter from "../components/Filters/SortFilter.jsx";
+import PodcastCarousel from "../components/Podcasts/PodcastCarousel.jsx";
 
 /**
  * Home page component
@@ -53,6 +54,8 @@ export default function Home() {
         </div>
       </div>
 
+      <PodcastCarousel numberOfItems={12} />
+      
       {/* PodcastGrid component: Displays the podcast cards in a responsive grid layout */}
       <PodcastGrid podcasts={visiblePodcasts} />
 
