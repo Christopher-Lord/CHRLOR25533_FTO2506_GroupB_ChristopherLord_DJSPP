@@ -60,7 +60,7 @@ export function PodcastProvider({ children }) {
     }
 
     //Filtering by search term
-    if (searchTerm.trim !== "") {
+    if (searchTerm.trim() !== "") {
       pods = pods.filter((pod) =>
         pod.title.toLowerCase().includes(searchTerm.toLocaleLowerCase()),
       );
@@ -112,7 +112,7 @@ export function PodcastProvider({ children }) {
       {podcastLoading || genresLoading ? (
         <Loading message="Loading Podcasts ⚙️" />
       ) : podcastError || genresError ? (
-        <Error message={`⚠️ Error: ${error}`} />
+        <Error message={`⚠️ Error: ${podcastError || genresError}`} />
       ) : (
         children
       )}
