@@ -1,16 +1,18 @@
 // src/components/UI/GlobalPlayer.jsx
 import { useAudioPlayerContext } from "../../context/AudioPlayerContext";
+import { timeFormat } from "../../utils/timeFormat";
 import "./GlobalPlayer.css";
 
 export default function GlobalPlayer() {
-  const { track, playing, play, pause, seek } = useAudioPlayerContext();
+  const { track, playing, progress, duration, play, pause, seek } =
+    useAudioPlayerContext();
 
   if (!track) return null;
 
   function handleSeek(event) {
     const value = Number(event.target.value);
     seek(value);
-  };
+  }
 
   return (
     <div className="player-container">
@@ -35,10 +37,17 @@ export default function GlobalPlayer() {
         </div>
 
         <div className="seek-wrapper">
-          <input type="range" 
-          min={0}
-          max={42}
-          onChange={handleSeek} />
+          <span className="time">{timeFormat(progress)}</span>
+
+          <input
+            type="range"
+            min={0}
+            max={duration || 0}
+            value={progress}
+            onChange={handleSeek}
+          />
+
+          <span className="time">{timeFormat(duration)}</span>
         </div>
       </div>
 
