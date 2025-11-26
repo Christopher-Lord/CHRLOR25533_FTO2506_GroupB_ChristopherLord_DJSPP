@@ -50,7 +50,7 @@ export default function ShowDetails() {
         <Error message={`Error occurred while fetching podcast: ${error}`} />
       )}
 
-      {!loading && !error && <PodcastDetails podcast={podcast} />}
+      {!loading && !error && <PodcastDetails singlePodcast={podcast} />}
     </>
   );
 }
