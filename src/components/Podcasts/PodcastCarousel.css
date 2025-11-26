@@ -1,0 +1,154 @@
+* {
+  box-sizing: border-box;
+}
+
+.carousel-container {
+  position: relative;
+
+  margin: 0 auto;
+  margin-bottom: 2rem;
+  padding: 2rem;
+
+  width: 95%;
+
+  background: #e5e7eb;
+  border-radius: 1rem;
+}
+
+.carousel-content {
+  display: grid;
+  grid-auto-columns: minmax(250px, auto);
+  grid-auto-flow: column;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+
+  gap: 1rem;
+
+  padding: 1rem 0;
+}
+
+.carousel-content::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-item {
+  background: var(--main-color);
+
+  padding: 1rem;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  box-shadow: var(--primary-box-shadow);
+
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  min-width: 250px;
+  min-height: 25rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 100%;
+}
+
+.recommended {
+  font-size: 1.5rem;
+  font-weight: 600;
+
+  margin: 0 0 1rem 0;
+}
+
+.carousel-item:hover {
+  transform: scale(1.02);
+}
+
+.preview-cover-img {
+  width: 100%;
+  border-radius: 1rem;
+
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.2rem;
+  font-weight: 500;
+
+  margin: 0.75rem 0;
+}
+
+.podcast-seasons,
+.podcast-updated {
+  color: var(--secondary-font-color);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.podcast-updated {
+  margin-bottom: 0;
+}
+
+.podcast-genres {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3125rem;
+
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+li {
+  background: var(--tags-color);
+
+  padding: 0.3125rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.carousel-arrow {
+  display: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  background: #b9b9b9;
+
+  border: none;
+  border-radius: 50%;
+
+  font-size: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  user-select: none;
+  cursor: pointer;
+
+  z-index: 10;
+}
+
+.carousel-arrow.left {
+  left: 10px;
+}
+
+.carousel-arrow.right {
+  right: 10px;
+}
+
+/* @media (max-width: 1025px) {
+  .carousel-content {
+    grid-auto-columns: 32%;
+  }
+} */
