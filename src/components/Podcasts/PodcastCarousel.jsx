@@ -22,11 +22,50 @@ export default function PodcastCarousel({ numberOfItems }) {
 
   const randomSelection = shuffled.slice(0, numberOfItems);
 
+  const gap = 16;
+
+  function scrollLeft() {
+    const item = containerRef.current;
+    if (!item) return;
+    item.scrollBy({
+      left: -250 + gap,
+      behavior: "smooth",
+    });
+  }
+
+  function scrollRight() {
+    const item = containerRef.current;
+    if (!item) return;
+
+    const maxScroll = item.scrollWidth - item.clientWidth;
+
+    if (item.scrollLeft >= maxScroll - 2) {
+      item.scrollTo({ left: 0, behavior: "smooth" });
+    } else {
+      item.scrollBy({
+        left: 250 + gap,
+        behavior: "smooth",
+      });
+    }
+  }
+
+  // useEffect(() => {
+  //   const item = containerRef.current;
+  //   function handleScroll() {
+  //     if (item.scrollLeft + item.clientWidth >= item.scrollWidth - 2) {
+  //       item.scrollTo({ left: 0 });
+  //     }
+  //   }
+
+  //   item.onscroll = handleScroll;
+  //   return () => (item.onscroll = null);
+  // }, []);
+
   return (
     <>
       <div className="carousel-container">
         <h2 className="recommended">Recommended</h2>
-        <button className="carousel-arrow left">
+        <button className="carousel-arrow left" onClick={scrollLeft}>
           &#10094;
         </button>
         <div className="carousel-content" ref={containerRef}>
@@ -53,7 +92,7 @@ export default function PodcastCarousel({ numberOfItems }) {
             </Link>
           ))}
         </div>
-        <button className="carousel-arrow right">
+        <button className="carousel-arrow right" onClick={scrollRight}>
           &#10095;
         </button>
       </div>
