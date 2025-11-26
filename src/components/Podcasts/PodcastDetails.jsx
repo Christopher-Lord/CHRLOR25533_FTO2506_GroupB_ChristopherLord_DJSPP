@@ -3,6 +3,7 @@ import { truncateText } from "/src/utils/truncateText.js";
 import { Link } from "react-router-dom";
 import { useAudioPlayerContext } from "../../context/AudioPlayerContext";
 import "/styles.css";
+import { usePodcasts } from './../../context/PodcastContext';
 
 
 /**
@@ -20,19 +21,22 @@ import "/styles.css";
  *
  * @returns {JSX.Element} Podcast details UI
  */
-export default function PodcastDetails({ podcast }) {
+export default function PodcastDetails({ singlePodcast }) {
   // Currently selected season number, initialized to the first season in the list
   const [selectedSeason, setSelectedSeason] = useState(
-    podcast.seasons[0].season,
+    singlePodcast.seasons[0].season,
   );
 
   // List of season numbers for dropdown
-  const seasonOptions = podcast.seasons.map((s) => s.season);
+  const seasonOptions = singlePodcast.seasons.map((s) => s.season);
 
   // Season object that matched the currently selected season
-  const currentSeasonObj = podcast.seasons.find(
+  const currentSeasonObj = singlePodcast.seasons.find(
     (s) => s.season === selectedSeason,
   );
+
+  const { podcasts } = usePodcasts();
+  const correctPodcast = podcasts.find((pod) => pod.id === singlePodcast.id);
 
   const { playEpisode } = useAudioPlayerContext();
 
@@ -48,18 +52,22 @@ export default function PodcastDetails({ podcast }) {
 
         {/* HEADER */}
         <div className="header">
-          <img className="cover-img" src={podcast.image} alt={podcast.title} />
+          <img
+            className="cover-img"
+            src={singlePodcast.image}
+            alt={singlePodcast.title}
+          />
 
           <div className="podcast-header-info">
-            <h1 className="title">{podcast.title}</h1>
-            <p className="description">{podcast.description}</p>
+            <h1 className="title">{singlePodcast.title}</h1>
+            <p className="description">{singlePodcast.description}</p>
 
             {/* List of genre names */}
             <div className="genres">
-              {podcast.genres &&
-                podcast.genres.map((title, index) => (
-                  <span key={index} className="genre-tag">
-                    {title}
+              {
+                correctPodcast.genres.map((genre) => (
+                  <span key={genre} className="genre-tag">
+                    {genre}
                   </span>
                 ))}
             </div>
@@ -67,7 +75,7 @@ export default function PodcastDetails({ podcast }) {
             {/* Display last updated date */}
             <p className="updated">
               Last Updated:{" "}
-              {new Date(podcast.updated).toLocaleDateString("en-US", {
+              {new Date(singlePodcast.updated).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
@@ -77,11 +85,11 @@ export default function PodcastDetails({ podcast }) {
             {/* Podcast stats: number of seasons and total episodes */}
             <div className="stats">
               <p>
-                <strong>{podcast.seasons.length}</strong> Seasons
+                <strong>{singlePodcast.seasons.length}</strong> Seasons
               </p>
               <p>
                 <strong>
-                  {podcast.seasons.reduce(
+                  {singlePodcast.seasons.reduce(
                     (sum, s) => sum + s.episodes.length,
                     0,
                   )}
@@ -158,7 +166,7 @@ export default function PodcastDetails({ podcast }) {
                         title: ep.title,
                         episode: ep.episode,
                         file: ep.file,
-                        podcastTitle: podcast.title,
+                        podcastTitle: singlePodcast.title,
                         season: currentSeasonObj.season,
                         seasonImage: currentSeasonObj.image,
                       })
