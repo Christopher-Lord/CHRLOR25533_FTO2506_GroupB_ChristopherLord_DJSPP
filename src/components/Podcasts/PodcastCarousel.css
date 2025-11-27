@@ -17,9 +17,9 @@
 
 .carousel-content {
   display: grid;
-  grid-auto-columns: minmax(250px, auto);
+  grid-auto-columns: 15.625rem;
   grid-auto-flow: column;
-  
+
   overflow-x: auto;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
@@ -54,7 +54,7 @@
   transition: transform 0.2s;
 
   /* min-width: 250px; */
-  min-height: 25rem;
+  /* height: 25rem; */
 
   display: flex;
   flex-direction: column;
