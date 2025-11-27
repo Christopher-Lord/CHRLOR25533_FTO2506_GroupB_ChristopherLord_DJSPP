@@ -1,11 +1,11 @@
 import { useMemo, useState, useEffect } from "react";
 import { useFavourites } from "./../context/FavouritesContext";
 import { useAudioPlayerContext } from "../context/AudioPlayerContext";
-import { fetchSinglePodcast } from "../api/fetchData";
-import { useParams } from "react-router-dom";
 
 export default function Favourites() {
   const { favourites, removeFavourite } = useFavourites();
+
+  const [sortOption, setSortOption] = useState("date-newest");
 
   const { playEpisode } = useAudioPlayerContext();
 
@@ -18,12 +18,40 @@ export default function Favourites() {
       }
       groups[ep.showTitle].push(ep);
     });
+
+    // Sort episodes within each show group
+    Object.keys(groups).forEach((showTitle) => {
+      groups[showTitle].sort((a, b) => {
+        if (sortOption === "title-asc") return a.title.localeCompare(b.title);
+        if (sortOption === "title-desc") return b.title.localeCompare(a.title);
+        if (sortOption === "date-newest")
+          return new Date(b.addedAt) - new Date(a.addedAt);
+        if (sortOption === "date-oldest")
+          return new Date(a.addedAt) - new Date(b.addedAt);
+        return 0;
+      });
+    });
     return groups;
-  }, [favourites]);
+  }, [favourites, sortOption]);
 
   return (
     <div className="favourites-page">
-      <h1>Favourite Episodes</h1>
+      <div className="fav-page-header">
+        <h1>Favourite Episodes</h1>
+
+        <div className="sort-controls">
+          <label>Sort by: </label>
+          <select
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+          >
+            <option value="title-asc">Title A–Z</option>
+            <option value="title-desc">Title Z–A</option>
+            <option value="date-newest">Date Added (Newest)</option>
+            <option value="date-oldest">Date Added (Oldest)</option>
+          </select>
+        </div>
+      </div>
 
       {Object.keys(groupedByShow).length === 0 ? (
         <p>No favourites yet!</p>
