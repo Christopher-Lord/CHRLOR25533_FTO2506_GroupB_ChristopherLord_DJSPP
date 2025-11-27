@@ -3,8 +3,8 @@ import { truncateText } from "/src/utils/truncateText.js";
 import { Link } from "react-router-dom";
 import { useAudioPlayerContext } from "../../context/AudioPlayerContext";
 import "/styles.css";
-import { usePodcasts } from './../../context/PodcastContext';
-
+import { usePodcasts } from "./../../context/PodcastContext";
+import { useFavourites } from "../../context/FavouritesContext";
 
 /**
  * PodcastDetails Component
@@ -40,6 +40,17 @@ export default function PodcastDetails({ singlePodcast }) {
 
   const { playEpisode } = useAudioPlayerContext();
 
+  const { favourites, addFavourite, removeFavourite } = useFavourites();
+
+  function isFavourite(ep) {
+    return favourites.some(
+      (fav) =>
+        fav.showId === singlePodcast.id &&
+        fav.season === currentSeasonObj.season &&
+        fav.episodeNumber === ep.episode,
+    );
+  }
+
   return (
     <div className="podcast-modal-container" id="podcast-modal">
       <div className="modal-content">
@@ -64,12 +75,11 @@ export default function PodcastDetails({ singlePodcast }) {
 
             {/* List of genre names */}
             <div className="genres">
-              {
-                correctPodcast.genres.map((genre) => (
-                  <span key={genre} className="genre-tag">
-                    {genre}
-                  </span>
-                ))}
+              {correctPodcast.genres.map((genre) => (
+                <span key={genre} className="genre-tag">
+                  {genre}
+                </span>
+              ))}
             </div>
 
             {/* Display last updated date */}
@@ -174,8 +184,33 @@ export default function PodcastDetails({ singlePodcast }) {
                   >
                     <span>&#9654;</span>
                   </div>
-                  <div className="ep-fav-btn">
-                    <span>&#x2764;</span>
+                  <div
+                    className="ep-fav-btn"
+                    onClick={() => {
+                      const episodeObj = {
+                        showId: singlePodcast.id,
+                        showTitle: singlePodcast.title,
+                        season: currentSeasonObj.season,
+                        seasonTitle: currentSeasonObj.title,
+                        seasonImage: currentSeasonObj.image,
+                        episodeNumber: ep.episode,
+                        title: ep.title,
+                        description: ep.description,
+                        file: ep.file,
+                      };
+
+                      if (isFavourite(ep)) {
+                        removeFavourite(episodeObj);
+                      } else {
+                        addFavourite(episodeObj);
+                      }
+                    }}
+                  >
+                    <span
+                      style={{ color: isFavourite(ep) ? "#c24242" : "gray" }}
+                    >
+                      &#x2764;
+                    </span>
                   </div>
                 </div>
               </div>
