@@ -190,6 +190,7 @@ export default function PodcastDetails({ singlePodcast }) {
                       const episodeObj = {
                         showId: singlePodcast.id,
                         showTitle: singlePodcast.title,
+                        showImage: singlePodcast.image,
                         season: currentSeasonObj.season,
                         seasonTitle: currentSeasonObj.title,
                         seasonImage: currentSeasonObj.image,
