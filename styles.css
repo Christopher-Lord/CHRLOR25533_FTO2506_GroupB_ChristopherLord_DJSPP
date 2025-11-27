@@ -270,6 +270,86 @@ body {
   background: #c743434f;
 }
 
+.favourites-page {
+  max-width: 56.25rem;
+  width: 100%;
+  margin: auto;
+
+  padding: 0 2rem;
+}
+
+.favourites-page h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.favourites-page > p {
+  text-align: center;
+}
+
+.fav-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  margin-bottom: 1rem;
+}
+
+.fav-header img {
+  width: 5rem;
+  height: 5rem;
+
+  border-radius: 1rem;
+}
+
+.show-group {
+  background: var(--main-color);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+
+  border: 1px solid #cccccc;
+  border-radius: 1rem;
+}
+
+.show-group h2 {
+  font-size: 1.5rem;
+}
+
+.remove-fav-btn {
+  background: #c2424244;
+
+  border: 0.25px solid #c2424256;
+  border-radius: 50%;
+
+  height: 2rem;
+  width: 2rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+}
+
+.remove-fav-img {
+  width: 0.8rem;
+  filter: saturate(70%) brightness(90%);
+}
+
+.episode-content h5 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.episode-content h4 {
+  font-size: 1.1rem;
+}
+
+.episode-content p {
+  font-size: 0.75rem;
+  color: var(--secondary-font-color);
+}
+
 /* 
 <========= Media Queries =========>
 */
