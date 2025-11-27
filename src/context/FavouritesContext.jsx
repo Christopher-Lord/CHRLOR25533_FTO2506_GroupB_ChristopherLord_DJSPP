@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const FavouritesContext = createContext();
 
@@ -8,6 +8,17 @@ export function useFavourites() {
 
 export function FavouritesProvider({ children }) {
   const [favourites, setFavourites] = useState([]);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("favourites");
+    if (stored) {
+      setFavourites(JSON.parse(stored));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("favourites", JSON.stringify(favourites));
+  }, [favourites]);
 
   function addFavourite(episode) {
     if (
