@@ -46,6 +46,7 @@ body {
   display: flex;
   gap: 0.25rem;
   align-items: center;
+  justify-content: space-between;
 
   background: var(--main-color);
   border-bottom: 1px solid var(--border-color);
@@ -53,8 +54,6 @@ body {
   padding-left: 0.5rem;
 
   font-size: clamp(0.625rem, 1.563vw, 0.9rem);
-
-  /* width: 100%; */
 }
 
 .podcast-header h1 {
@@ -67,6 +66,22 @@ body {
   object-fit: contain;
   width: 2rem;
   height: 2rem;
+}
+
+.podcast-logo {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+
+  margin-right: 2rem;
+}
+
+.nav-links h3:hover {
+  text-decoration: underline;
 }
 
 /* 
@@ -301,7 +316,7 @@ body {
   body {
     padding-bottom: 12.5rem;
   }
-  
+
   .header {
     flex-direction: column;
     align-items: center;
