@@ -287,6 +287,12 @@ body {
   text-align: center;
 }
 
+.fav-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .fav-header {
   display: flex;
   align-items: center;
@@ -419,5 +425,11 @@ body {
     flex-direction: row;
     justify-content: space-between;
     margin-left: 0;
+  }
+
+  .fav-page-header {
+    flex-direction: column;
+    margin-bottom: 1rem;
+    align-items: start;
   }
 }
