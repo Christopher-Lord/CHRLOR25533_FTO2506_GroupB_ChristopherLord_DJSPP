@@ -5,6 +5,7 @@ import Home from "./pages/Home.jsx";
 import ShowDetails from "./pages/ShowDetails.jsx";
 import "./App.css";
 import GlobalPlayer from "./components/UI/GlobalPlayer.jsx";
+import Favourites from "./pages/Favourites.jsx";
 
 /**
  * Main app component
@@ -21,6 +22,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path={`/show/:id`} element={<ShowDetails />} />
+          <Route path="/favourites" element={<Favourites />} />
         </Routes>
       </PodcastProvider>
 
