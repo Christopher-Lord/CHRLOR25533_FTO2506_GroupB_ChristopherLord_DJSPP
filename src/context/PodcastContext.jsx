@@ -45,14 +45,16 @@ export function PodcastProvider({ children }) {
   const genreLookup = createGenreLookup(genres);
 
   //Mapping API podcasts to include genre titles
-  let podcasts = (data || []).map((podcast) => ({
-    ...podcast,
-    genres: genreLookup.getGenreTitlesByIds(podcast.genres),
-  }));
+  const rawPodcasts = useMemo(() => {
+    return (data || []).map((podcast) => ({
+      ...podcast,
+      genres: genreLookup.getGenreTitlesByIds(podcast.genres),
+    }));
+  }, [data, genreLookup]);
 
   //Memoized filtering and sorting logic
   const filteredPodcasts = useMemo(() => {
-    let pods = [...podcasts];
+    let pods = [...rawPodcasts];
 
     // Apply genre filter if a specific genre has been selected
     if (selectedGenre !== "all-genres") {
@@ -78,7 +80,7 @@ export function PodcastProvider({ children }) {
     return pods;
 
     //Update if these values change
-  }, [podcasts, selectedGenre, searchTerm, sortOption]);
+  }, [rawPodcasts, selectedGenre, searchTerm, sortOption]);
 
   // Changing styling on main element when loading and error states change
   useEffect(() => {
@@ -106,6 +108,7 @@ export function PodcastProvider({ children }) {
         setSearchTerm,
         sortOption,
         setSortOption,
+        rawPodcasts,
         podcasts: filteredPodcasts,
       }}
     >
