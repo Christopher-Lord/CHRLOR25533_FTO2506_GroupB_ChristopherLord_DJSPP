@@ -5,17 +5,17 @@ import "./PodcastCard.css";
 import "./PodcastCarousel.css";
 
 export default function PodcastCarousel({ numberOfItems }) {
-  const { podcasts, isLoading, error } = usePodcasts();
+  const { rawPodcasts, isLoading, error } = usePodcasts();
 
   const [shuffled, setShuffled] = useState([]);
   const containerRef = useRef(null);
 
   useEffect(() => {
-    if (podcasts.length === 0) return;
+    if (rawPodcasts.length === 0) return;
 
-    const shuffledPodcasts = [...podcasts].sort(() => Math.random() - 0.5);
+    const shuffledPodcasts = [...rawPodcasts].sort(() => Math.random() - 0.5);
     setShuffled(shuffledPodcasts);
-  }, [podcasts]);
+  }, [isLoading]);
 
   if (isLoading) return;
   if (error) return;
@@ -48,18 +48,6 @@ export default function PodcastCarousel({ numberOfItems }) {
       });
     }
   }
-
-  // useEffect(() => {
-  //   const item = containerRef.current;
-  //   function handleScroll() {
-  //     if (item.scrollLeft + item.clientWidth >= item.scrollWidth - 2) {
-  //       item.scrollTo({ left: 0 });
-  //     }
-  //   }
-
-  //   item.onscroll = handleScroll;
-  //   return () => (item.onscroll = null);
-  // }, []);
 
   return (
     <>
