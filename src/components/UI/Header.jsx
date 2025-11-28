@@ -49,9 +49,9 @@ export default function Header() {
 
         {/* Show light or dark logo depending on current theme */}
         {theme === "light" ? (
-          <img src="/src/assets/podcast-logo-light.png" alt="Podcast Logo" />
+          <img src="/public/podcast-logo-light.png" alt="Podcast Logo" />
         ) : (
-          <img src="/src/assets/podcast-logo-dark.png" alt="Podcast Logo" />
+          <img src="/public/podcast-logo-dark.png" alt="Podcast Logo" />
         )}
         <h1>PodcastApp</h1>
       </div>
