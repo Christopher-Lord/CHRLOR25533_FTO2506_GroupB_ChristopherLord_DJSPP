@@ -56,21 +56,22 @@ export default function Favourites() {
       <div className="fav-page-header">
         <h1>Favourite Episodes</h1>
 
-        <button className="reset-btn" onClick={resetHistory}>
-          Reset Progress
-        </button>
-
         <div className="sort-controls">
-          <label>Sort by: </label>
-          <select
-            value={sortOption}
-            onChange={(e) => setSortOption(e.target.value)}
-          >
-            <option value="title-asc">Title A–Z</option>
-            <option value="title-desc">Title Z–A</option>
-            <option value="date-newest">Date Added (Newest)</option>
-            <option value="date-oldest">Date Added (Oldest)</option>
-          </select>
+          <div>
+            <label>Sort by: </label>
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+            >
+              <option value="title-asc">Title A–Z</option>
+              <option value="title-desc">Title Z–A</option>
+              <option value="date-newest">Date Added (Newest)</option>
+              <option value="date-oldest">Date Added (Oldest)</option>
+            </select>
+          </div>
+          <button className="reset-btn" onClick={resetHistory}>
+            Reset Progress
+          </button>
         </div>
       </div>
 
