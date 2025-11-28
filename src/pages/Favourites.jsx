@@ -9,7 +9,7 @@ export default function Favourites() {
   const [sortOption, setSortOption] = useState("date-newest");
 
   const { playEpisode } = useAudioPlayerContext();
-  const { getEpisodeProgress } = useListeningHistory();
+  const { getEpisodeProgress, resetHistory } = useListeningHistory();
 
   const groupedByShow = useMemo(() => {
     const groups = {};
@@ -40,6 +40,10 @@ export default function Favourites() {
     <div className="favourites-page">
       <div className="fav-page-header">
         <h1>Favourite Episodes</h1>
+
+        <button className="reset-btn" onClick={resetHistory}>
+          Reset Progress
+        </button>
 
         <div className="sort-controls">
           <label>Sort by: </label>
