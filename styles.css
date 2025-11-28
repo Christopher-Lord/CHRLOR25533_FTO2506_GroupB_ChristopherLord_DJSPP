@@ -415,6 +415,38 @@ body {
 }
 
 /* 
+<========= Progress Styling =========>
+*/
+
+.ep-progress-badge {
+  font-size: 0.9rem;
+  color: #040404;
+
+  background: #d3d3f8;
+
+  width: 8rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 0.25px solid #8e8ee7;
+  border-radius: 1rem;
+
+  padding: 0.2rem;
+}
+
+.reset-btn {
+  border: 1px solid #b12727;
+  border-radius: 0.2rem;
+
+  color: #b91919;
+  background: #f8e6e6;
+
+  padding: 0.3rem 0.75rem;
+}
+
+/* 
 <========= Media Queries =========>
 */
 
