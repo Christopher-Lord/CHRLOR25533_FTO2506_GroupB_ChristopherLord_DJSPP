@@ -444,6 +444,8 @@ body {
   background: #f8e6e6;
 
   padding: 0.3rem 0.75rem;
+
+  cursor: pointer;
 }
 
 /* 
