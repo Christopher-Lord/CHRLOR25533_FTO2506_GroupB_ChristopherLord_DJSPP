@@ -38,13 +38,21 @@ export default function PodcastDetails({ singlePodcast }) {
     (s) => s.season === selectedSeason,
   );
 
+  // Get the full podcast data from context
   const { podcasts } = usePodcasts();
   const correctPodcast = podcasts.find((pod) => pod.id === singlePodcast.id);
 
+  // Audio player context for playing episode
   const { playEpisode } = useAudioPlayerContext();
 
+  // Favourites context for managing favourite episodes
   const { favourites, addFavourite, removeFavourite } = useFavourites();
 
+  /**
+   * Checks if a given episode is in the favourites list
+   * @param {Object} ep - Episode object
+   * @returns {boolean} True if episode is favourited, false otherwise
+   */
   function isFavourite(ep) {
     return favourites.some(
       (fav) =>
@@ -154,12 +162,14 @@ export default function PodcastDetails({ singlePodcast }) {
           {/* EPISODES LIST */}
           <div className="episodes-list">
             {currentSeasonObj.episodes.map((ep) => {
+              // Get episode progress from listening history
               const progressData = getEpisodeProgress(
                 singlePodcast.id,
                 currentSeasonObj.season,
                 ep.episode,
               );
 
+              // Determine badge text based on progress
               let badge = null;
               if (progressData) {
                 badge = progressData.finished
@@ -185,9 +195,11 @@ export default function PodcastDetails({ singlePodcast }) {
                       {truncateText(ep.description, 159)}
                     </p>
 
+                    {/* Progress badge if episode has been started */}
                     {badge && <div className="ep-progress-badge">{badge}</div>}
                   </div>
                   <div className="ep-btns">
+                    {/* Play button */}
                     <div
                       className="ep-play-btn"
                       onClick={() =>
@@ -204,6 +216,7 @@ export default function PodcastDetails({ singlePodcast }) {
                     >
                       <span>&#9654;</span>
                     </div>
+                    {/* Favourite button */}
                     <div
                       className="ep-fav-btn"
                       onClick={() => {
@@ -220,6 +233,7 @@ export default function PodcastDetails({ singlePodcast }) {
                           file: ep.file,
                         };
 
+                        // Toggle favourite status
                         if (isFavourite(ep)) {
                           removeFavourite(episodeObj);
                         } else {
@@ -227,6 +241,7 @@ export default function PodcastDetails({ singlePodcast }) {
                         }
                       }}
                     >
+                      {/* Heart icon color changes if favourited */}
                       <span
                         style={{ color: isFavourite(ep) ? "#c24242" : "gray" }}
                       >

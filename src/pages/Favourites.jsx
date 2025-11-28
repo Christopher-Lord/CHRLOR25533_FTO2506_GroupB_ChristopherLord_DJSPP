@@ -3,17 +3,32 @@ import { useFavourites } from "./../context/FavouritesContext";
 import { useAudioPlayerContext } from "../context/AudioPlayerContext";
 import { useListeningHistory } from "./../context/ListeningHistoryContext";
 
+/**
+ * Favourites Component
+ *
+ * Displays all favourite podcast episodes, grouped by show.
+ * Provides sorting options and controls to play episodes or remove them from favourites.
+ * Integrates with audio player and listening history context.
+ *
+ * @returns {JSX.Element} UI for favourites page
+ */
 export default function Favourites() {
+  // Accessing contexts
   const { favourites, removeFavourite } = useFavourites();
-
-  const [sortOption, setSortOption] = useState("date-newest");
-
   const { playEpisode } = useAudioPlayerContext();
   const { getEpisodeProgress, resetHistory } = useListeningHistory();
 
+  // State to store currently selected sort option
+  const [sortOption, setSortOption] = useState("date-newest");
+
+  /**
+   * Group favourites by show and sort episodes according to selected sort option
+   * Recalculate only when favourites or sortOption change
+   */
   const groupedByShow = useMemo(() => {
     const groups = {};
 
+    // Group episodes by show title
     favourites.forEach((ep) => {
       if (!groups[ep.showTitle]) {
         groups[ep.showTitle] = [];
@@ -59,6 +74,7 @@ export default function Favourites() {
         </div>
       </div>
 
+      {/* Display message if no favourites */}
       {Object.keys(groupedByShow).length === 0 ? (
         <p>No favourites yet!</p>
       ) : (
@@ -68,14 +84,18 @@ export default function Favourites() {
               <img src={episodes[0].showImage} alt={showTitle} />
               <h2>{showTitle}</h2>
             </div>
+
+            {/* Episodes list for matching show */}
             <div className="episode-list">
               {episodes.map((ep) => {
+                // Get saved progress from listening history
                 const progressData = getEpisodeProgress(
                   ep.showId,
                   ep.season,
                   ep.episodeNumber,
                 );
 
+                // Determine badge text based on progress
                 let badge = null;
                 if (progressData && progressData.progress > 0) {
                   badge = progressData.finished
@@ -93,6 +113,8 @@ export default function Favourites() {
                       src={ep.seasonImage}
                       alt={ep.title}
                     />
+
+                    {/* Episode information */}
                     <div className="episode-content">
                       <h4>Season {ep.season}</h4>
                       <h5>
@@ -103,6 +125,8 @@ export default function Favourites() {
                         <div className="ep-progress-badge">{badge}</div>
                       )}
                     </div>
+
+                    {/* Play and remove buttons */}
                     <div className="ep-btns">
                       <div
                         className="ep-play-btn"
