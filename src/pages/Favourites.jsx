@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from "react";
 import { useFavourites } from "./../context/FavouritesContext";
 import { useAudioPlayerContext } from "../context/AudioPlayerContext";
+import { useListeningHistory } from "./../context/ListeningHistoryContext";
 
 export default function Favourites() {
   const { favourites, removeFavourite } = useFavourites();
@@ -8,6 +9,7 @@ export default function Favourites() {
   const [sortOption, setSortOption] = useState("date-newest");
 
   const { playEpisode } = useAudioPlayerContext();
+  const { getEpisodeProgress } = useListeningHistory();
 
   const groupedByShow = useMemo(() => {
     const groups = {};
@@ -63,51 +65,69 @@ export default function Favourites() {
               <h2>{showTitle}</h2>
             </div>
             <div className="episode-list">
-              {episodes.map((ep) => (
-                <div
-                  key={`${ep.showId}-${ep.season}-${ep.episodeNumber}`}
-                  className="episode-card"
-                >
-                  {/* All episodes re-use season cover image */}
-                  <img
-                    className="episode-img"
-                    src={ep.seasonImage}
-                    alt={ep.title}
-                  />
-                  <div className="episode-content">
-                    <h4>Season {ep.season}</h4>
-                    <h5>
-                      Episode {ep.episodeNumber}: {ep.title}
-                    </h5>
-                    <p>Added {new Date(ep.addedAt).toLocaleString()}</p>
-                  </div>
-                  <div className="ep-btns">
-                    <div
-                      className="ep-play-btn"
-                      onClick={() =>
-                        playEpisode({
-                          title: ep.title,
-                          episode: ep.episode,
-                          file: ep.file,
-                          podcastTitle: ep.showTitle,
-                          season: ep.season,
-                          seasonImage: ep.seasonImage,
-                        })
-                      }
-                    >
-                      <span>&#9654;</span>
+              {episodes.map((ep) => {
+                const progressData = getEpisodeProgress(
+                  ep.showId,
+                  ep.season,
+                  ep.episodeNumber,
+                );
+
+                let badge = null;
+                if (progressData && progressData.progress > 0) {
+                  badge = progressData.finished
+                    ? "Finished"
+                    : `Progress: ${Math.floor((progressData.progress / progressData.duration) * 100)}%`;
+                }
+                return (
+                  <div
+                    key={`${ep.showId}-${ep.season}-${ep.episodeNumber}`}
+                    className="episode-card"
+                  >
+                    {/* All episodes re-use season cover image */}
+                    <img
+                      className="episode-img"
+                      src={ep.seasonImage}
+                      alt={ep.title}
+                    />
+                    <div className="episode-content">
+                      <h4>Season {ep.season}</h4>
+                      <h5>
+                        Episode {ep.episodeNumber}: {ep.title}
+                      </h5>
+                      <p>Added {new Date(ep.addedAt).toLocaleString()}</p>
+                      {badge && (
+                        <div className="ep-progress-badge">{badge}</div>
+                      )}
                     </div>
-                    <div className="remove-fav-btn">
-                      <span onClick={() => removeFavourite(ep)}>
-                        <img
-                          className="remove-fav-img"
-                          src="./src/assets/remove-fav-btn.png"
-                        />
-                      </span>
+                    <div className="ep-btns">
+                      <div
+                        className="ep-play-btn"
+                        onClick={() =>
+                          playEpisode({
+                            showId: ep.showId,
+                            title: ep.title,
+                            episode: ep.episodeNumber,
+                            file: ep.file,
+                            podcastTitle: ep.showTitle,
+                            season: ep.season,
+                            seasonImage: ep.seasonImage,
+                          })
+                        }
+                      >
+                        <span>&#9654;</span>
+                      </div>
+                      <div className="remove-fav-btn">
+                        <span onClick={() => removeFavourite(ep)}>
+                          <img
+                            className="remove-fav-img"
+                            src="./src/assets/remove-fav-btn.png"
+                          />
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         ))
