@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from "react";
+import { useListeningHistory } from "../context/ListeningHistoryContext";
 
 export function useAudioPlayer() {
   const audio = useRef(new Audio()).current;
+  const lastUpdate = useRef(0);
+
+  const { updateProgress, getEpisodeProgress } = useListeningHistory();
 
   const [track, setTrack] = useState(null);
   const [playing, setPlaying] = useState(false);
@@ -13,8 +17,22 @@ export function useAudioPlayer() {
     setTrack(episode);
 
     audio.src = episode.file;
-    audio.play();
-    setPlaying(true);
+
+    const savedProgress = getEpisodeProgress(
+      episode.showId,
+      episode.season,
+      episode.episode,
+    );
+
+    audio.addEventListener(
+      "loadedmetadata",
+      () => {
+        audio.currentTime = savedProgress ? savedProgress.progress : 0;
+        audio.play();
+        setPlaying(true);
+      },
+      { once: true },
+    );
   }
 
   function play() {
@@ -33,8 +51,22 @@ export function useAudioPlayer() {
 
   useEffect(() => {
     function update() {
+      const now = Date.now();
+      if (now - lastUpdate.current < 1000) return;
+      lastUpdate.current = now;
+
       setProgress(audio.currentTime);
       setDuration(audio.duration);
+
+      if (track) {
+        updateProgress(
+          track.showId,
+          track.season,
+          track.episode,
+          audio.currentTime,
+          audio.duration,
+        );
+      }
     }
 
     audio.addEventListener("timeupdate", update);
@@ -44,7 +76,7 @@ export function useAudioPlayer() {
       audio.removeEventListener("timeupdate", update);
       audio.removeEventListener("loadedmetadata", update);
     };
-  }, [audio]);
+  }, [audio, track, updateProgress]);
 
   useEffect(() => {
     function leaveAlert(event) {
