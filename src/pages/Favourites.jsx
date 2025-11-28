@@ -148,7 +148,7 @@ export default function Favourites() {
                         <span onClick={() => removeFavourite(ep)}>
                           <img
                             className="remove-fav-img"
-                            src="/public/remove-fav-btn.png"
+                            src="/remove-fav-btn.png"
                           />
                         </span>
                       </div>
