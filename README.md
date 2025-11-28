@@ -1,14 +1,65 @@
 # 🎧 DJS Portfolio Piece – Podcast App (React)
 
-## 📋 Overview
+## 📋 Project Description
 
-In this final phase, you will enhance the podcast app you've been building throughout the DJS course. The app already includes a landing page with searchable, sortable, and filterable podcast previews, as well as a show detail page with season toggling.
+This project builds off previous versions and introduces key new features including global audio playback, favouriting episodes, deployment best practices, UI enhancements, a recommended shows carousel and listening progress tracking.
 
-This project introduces key new features including global audio playback, favouriting episodes, deployment best practices, UI enhancements, and optional listening progress tracking.
+## Setup Instructions
 
-Your goal is to build a polished, production-ready React application that offers an engaging and seamless user experience.
+- Make sure you have `Node.js` and `npm` installed
+- Open VSCode and clone this repo (`https://github.com/Christopher-Lord/CHRLOR25533_FTO2506_GroupB_ChristopherLord_DJS04.git`)
+- After cloning, change your current directory to the newly cloned project folder (`cd repository-name`)
+- The `package.json` file in this project contains all required dependencies: Install them using `npm install`
+- Once dependencies are installed, start the dev server using `npm run dev`
+- Navigate to the given `http://localhost` domain in your browser
+- Browse the web page!
 
-> **Tip:** You are encouraged to explore the React ecosystem to help implement features efficiently.
+## Features
+
+- A global audio player, with full playback control
+- Support for favouriting podcast episodes with persistent storage
+- A favourites page, to view all favourited episodes
+- A randomised recommended shows carousel on the landing page
+- Theme toggling between light and dark mode
+- Track listening progress across episodes
+- Ability to reset listening progress if you want to start fresh
+
+## Technologies Used
+
+- HTML
+- CSS
+- React
+- Vite
+- Vercel
+
+## Usage Examples
+
+- Once the server is running, navigate to the given `http://localhost` domain in your browser 
+
+- On the Home page:
+  - To utilize the filter and sorting features, interact with the search bar or dropdowns at the top
+  - Interact with the carousel using the arrow buttons to either side of it
+  - Change the theme by interacting with the 🌙 icon in the top right
+  - Navigate to any of the podcast's details page by clicking on a podcast card
+  - Navigate to the favourites page by interacting with the links in the header
+  - Load more podcasts by interacting with the **Load More** button at the bottom
+
+- On a podcasts details page:
+  - Navigate back to the home page by interacting with the **Back to Home** button at the top
+  - View the podcasts information at the top
+  - Browse the currently selected seasons episodes
+  - Change the current season by selecting a season from the dropdown
+  - Interact with an episodes play button to start listening to an episode (This will bring up the audio player)
+  - Interact with an episodes heart icon to favourite an episode
+
+- On the Favourites page:
+  - View all episodes you have favourited, grouped by podcast
+  - Sort saved favourites by interacting with the dropdown
+  - Remove an episode from your favourites by interacting with the red bin icon
+  - Play an episode from your favourites by interacting with the play button
+  - Reset all listening progress by interacting with the **Reset Progress** button at the top
+
+---
 
 ## 🎯 Objectives
 
