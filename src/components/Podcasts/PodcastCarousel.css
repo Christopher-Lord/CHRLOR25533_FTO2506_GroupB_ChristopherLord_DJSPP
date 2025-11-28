@@ -11,7 +11,7 @@
 
   width: 95%;
 
-  background: #e5e7eb;
+  background: var(--carousel-color);
   border-radius: 1rem;
 }
 
@@ -46,7 +46,7 @@
 
   padding: 1rem;
 
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border-color);
   border-radius: 0.75rem;
   box-shadow: var(--primary-box-shadow);
 
@@ -132,14 +132,14 @@ li {
   top: 50%;
   transform: translateY(-50%);
 
-  background: #b9b9b9;
+  background: var(--carousel-arrows);
 
   border: none;
-  border-radius: 50%;
+  border-radius: 2rem;
 
   font-size: 1.5rem;
   width: 2.5rem;
-  height: 2.5rem;
+  height: 4rem;
 
   display: flex;
   justify-content: center;
@@ -149,6 +149,8 @@ li {
   cursor: pointer;
 
   z-index: 10;
+
+  color: var(--main-font-color);
 }
 
 .carousel-arrow.left {
