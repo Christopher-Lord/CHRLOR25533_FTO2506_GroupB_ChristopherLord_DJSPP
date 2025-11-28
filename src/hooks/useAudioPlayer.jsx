@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function useAudioPlayer() {
   const audio = useRef(new Audio()).current;
@@ -9,16 +9,13 @@ export function useAudioPlayer() {
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  const playEpisode = useCallback(
-    (episode) => {
-      setTrack(episode);
+  function playEpisode(episode) {
+    setTrack(episode);
 
-      audio.src = episode.file;
-      audio.play();
-      setPlaying(true);
-    },
-    [audio],
-  );
+    audio.src = episode.file;
+    audio.play();
+    setPlaying(true);
+  }
 
   function play() {
     audio.play();
@@ -40,12 +37,12 @@ export function useAudioPlayer() {
       setDuration(audio.duration);
     }
 
-    audio.ontimeupdate = update;
-    audio.onloadedmetadata = update;
+    audio.addEventListener("timeupdate", update);
+    audio.addEventListener("loadedmetadata", update);
 
     return () => {
-      audio.ontimeupdate = null;
-      audio.onloadedmetadata = null;
+      audio.removeEventListener("timeupdate", update);
+      audio.removeEventListener("loadedmetadata", update);
     };
   }, [audio]);
 
@@ -53,13 +50,12 @@ export function useAudioPlayer() {
     function leaveAlert(event) {
       if (!playing) return;
       event.preventDefault();
-      event.returnValue = "";
     }
 
-    window.onbeforeunload = leaveAlert;
+    window.addEventListener("beforeunload", leaveAlert);
 
     return () => {
-      window.onbeforeunload = null;
+      window.removeEventListener("beforeunload", leaveAlert);
     };
   }, [playing]);
 
