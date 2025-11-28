@@ -5,6 +5,7 @@ import { useAudioPlayerContext } from "../../context/AudioPlayerContext";
 import "/styles.css";
 import { usePodcasts } from "./../../context/PodcastContext";
 import { useFavourites } from "../../context/FavouritesContext";
+import { useListeningHistory } from "../../context/ListeningHistoryContext";
 
 /**
  * PodcastDetails Component
@@ -26,6 +27,8 @@ export default function PodcastDetails({ singlePodcast }) {
   const [selectedSeason, setSelectedSeason] = useState(
     singlePodcast.seasons[0].season,
   );
+
+  const { getEpisodeProgress } = useListeningHistory();
 
   // List of season numbers for dropdown
   const seasonOptions = singlePodcast.seasons.map((s) => s.season);
@@ -150,72 +153,90 @@ export default function PodcastDetails({ singlePodcast }) {
 
           {/* EPISODES LIST */}
           <div className="episodes-list">
-            {currentSeasonObj.episodes.map((ep) => (
-              <div key={ep.episode} className="episode-card">
-                {/* All episodes re-use season cover image */}
-                <img
-                  className="episode-img"
-                  src={currentSeasonObj.image}
-                  alt={ep.title}
-                />
-                <div className="episode-content">
-                  <h4>
-                    Episode {ep.episode}: {ep.title}
-                  </h4>
+            {currentSeasonObj.episodes.map((ep) => {
+              const progressData = getEpisodeProgress(
+                singlePodcast.id,
+                currentSeasonObj.season,
+                ep.episode,
+              );
 
-                  {/* Truncated episode description */}
-                  <p className="ep-description">
-                    {truncateText(ep.description, 159)}
-                  </p>
-                </div>
-                <div className="ep-btns">
-                  <div
-                    className="ep-play-btn"
-                    onClick={() =>
-                      playEpisode({
-                        title: ep.title,
-                        episode: ep.episode,
-                        file: ep.file,
-                        podcastTitle: singlePodcast.title,
-                        season: currentSeasonObj.season,
-                        seasonImage: currentSeasonObj.image,
-                      })
-                    }
-                  >
-                    <span>&#9654;</span>
+              let badge = null;
+              if (progressData) {
+                badge = progressData.finished
+                  ? "Finished"
+                  : `Progress: ${Math.floor((progressData.progress / progressData.duration) * 100)}%`;
+              }
+
+              return (
+                <div key={ep.episode} className="episode-card">
+                  {/* All episodes re-use season cover image */}
+                  <img
+                    className="episode-img"
+                    src={currentSeasonObj.image}
+                    alt={ep.title}
+                  />
+                  <div className="episode-content">
+                    <h4>
+                      Episode {ep.episode}: {ep.title}
+                    </h4>
+
+                    {/* Truncated episode description */}
+                    <p className="ep-description">
+                      {truncateText(ep.description, 159)}
+                    </p>
+
+                    {badge && <div className="ep-progress-badge">{badge}</div>}
                   </div>
-                  <div
-                    className="ep-fav-btn"
-                    onClick={() => {
-                      const episodeObj = {
-                        showId: singlePodcast.id,
-                        showTitle: singlePodcast.title,
-                        showImage: singlePodcast.image,
-                        season: currentSeasonObj.season,
-                        seasonTitle: currentSeasonObj.title,
-                        seasonImage: currentSeasonObj.image,
-                        episodeNumber: ep.episode,
-                        title: ep.title,
-                        description: ep.description,
-                        file: ep.file,
-                      };
-
-                      if (isFavourite(ep)) {
-                        removeFavourite(episodeObj);
-                      } else {
-                        addFavourite(episodeObj);
+                  <div className="ep-btns">
+                    <div
+                      className="ep-play-btn"
+                      onClick={() =>
+                        playEpisode({
+                          showId: singlePodcast.id,
+                          title: ep.title,
+                          episode: ep.episode,
+                          file: ep.file,
+                          podcastTitle: singlePodcast.title,
+                          season: currentSeasonObj.season,
+                          seasonImage: currentSeasonObj.image,
+                        })
                       }
-                    }}
-                  >
-                    <span
-                      style={{ color: isFavourite(ep) ? "#c24242" : "gray" }}
                     >
-                      &#x2764;
-                    </span>
+                      <span>&#9654;</span>
+                    </div>
+                    <div
+                      className="ep-fav-btn"
+                      onClick={() => {
+                        const episodeObj = {
+                          showId: singlePodcast.id,
+                          showTitle: singlePodcast.title,
+                          showImage: singlePodcast.image,
+                          season: currentSeasonObj.season,
+                          seasonTitle: currentSeasonObj.title,
+                          seasonImage: currentSeasonObj.image,
+                          episodeNumber: ep.episode,
+                          title: ep.title,
+                          description: ep.description,
+                          file: ep.file,
+                        };
+
+                        if (isFavourite(ep)) {
+                          removeFavourite(episodeObj);
+                        } else {
+                          addFavourite(episodeObj);
+                        }
+                      }}
+                    >
+                      <span
+                        style={{ color: isFavourite(ep) ? "#c24242" : "gray" }}
+                      >
+                        &#x2764;
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
