@@ -6,6 +6,7 @@ This project builds off previous versions and introduces key new features includ
 
 ## Setup Instructions
 
+- Visit the demo link below **OR**
 - Make sure you have `Node.js` and `npm` installed
 - Open VSCode and clone this repo (`https://github.com/Christopher-Lord/CHRLOR25533_FTO2506_GroupB_ChristopherLord_DJS04.git`)
 - After cloning, change your current directory to the newly cloned project folder (`cd repository-name`)
@@ -13,6 +14,10 @@ This project builds off previous versions and introduces key new features includ
 - Once dependencies are installed, start the dev server using `npm run dev`
 - Navigate to the given `http://localhost` domain in your browser
 - Browse the web page!
+
+### Demo Link
+
+[Podcast App](https://chris-lord-podcast-app.vercel.app/)
 
 ## Features
 
